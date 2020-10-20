@@ -1,0 +1,8 @@
+--output I:/Projects/2019/EPEC_BachmannUKA/Processing/
+--input 0, D:/ScieboDrive/Projects/2019/EPEC_BachmannUKA/Software/MAX_857-4_EGFP_3D.tif, 2, float
+--xml D:/Projects/2019/EPEC_BachmannUKA/Software/XPIWIT/DetectionPipelineWithSegmentation.xml
+--seed 0
+--lockfile off
+--subfolder filterid, filtername
+--outputformat imagename, filtername
+--end
