@@ -65,7 +65,7 @@ if (settings.maximumProjectionMode == true)
         maxProj1 = imadjust(settings.maxProjectionImage1, [settings.minIntensity, settings.maxIntensity], [], settings.gamma);
         maxProj2 = imadjust(settings.maxProjectionImage2, [settings.minIntensity, settings.maxIntensity], [], settings.gamma);
         imagesc(cat(3, maxProj1, maxProj1, maxProj1 .* (1-maxProj2))); colormap(settings.colormap); hold on;
-    elseif (settings.viewMode == 6)
+    elseif (settings.viewMode == 6 || settings.viewMode == 7)
         maxProj2 = imadjust(settings.maxProjectionImage2, [settings.minIntensity, settings.maxIntensity], [], settings.gamma);
         imagesc(maxProj2); colormap(settings.colormap); hold on;
     end
@@ -74,7 +74,7 @@ if (settings.maximumProjectionMode == true)
     for i=groupIndices'
         
         %% skip plotting the detections if disabled
-        if (settings.showDetections == false)
+        if (settings.showDetections == false || settings.viewMode == 7)
             continue;
         end
         
@@ -131,14 +131,16 @@ else
 end
 
 %% show the group ids and counts
-textColors = {'white', 'red'};
-text('String', ['Epsilon: ' num2str(settings.epsilon)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 0)+1}, 'Units', 'normalized', 'Position', [0.01 0.98], 'Background', 'black');
-text('String', ['MinPoints: ' num2str(settings.minPoints)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 1)+1}, 'Units', 'normalized', 'Position', [0.01 0.94], 'Background', 'black');
-text('String', ['BdryShape: ' num2str(settings.boundaryShape)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 2)+1}, 'Units', 'normalized', 'Position', [0.01 0.90], 'Background', 'black');
-text('String', ['PedestalThreshold: ' num2str(settings.pedestalThreshold)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 3)+1}, 'Units', 'normalized', 'Position', [0.01 0.86], 'Background', 'black');
+if (settings.showParameterPanel == true)
+    textColors = {'white', 'red'};
+    text('String', ['Epsilon: ' num2str(settings.epsilon)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 0)+1}, 'Units', 'normalized', 'Position', [0.01 0.98], 'Background', 'black');
+    text('String', ['MinPoints: ' num2str(settings.minPoints)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 1)+1}, 'Units', 'normalized', 'Position', [0.01 0.94], 'Background', 'black');
+    text('String', ['BdryShape: ' num2str(settings.boundaryShape)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 2)+1}, 'Units', 'normalized', 'Position', [0.01 0.90], 'Background', 'black');
+    text('String', ['PedestalThreshold: ' num2str(settings.pedestalThreshold)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 3)+1}, 'Units', 'normalized', 'Position', [0.01 0.86], 'Background', 'black');
 
-addDeleteMode = {'None', 'Bacteria', 'Colonies'};
-text('String', ['Add/Delete Mode: ' addDeleteMode{settings.addDeleteMode+1}], 'FontSize', settings.fontSize, 'Color', 'white', 'Units', 'normalized', 'Position', [0.01 0.82], 'Background', 'black');
+    addDeleteMode = {'None', 'Bacteria', 'Colonies'};
+    text('String', ['Add/Delete Mode: ' addDeleteMode{settings.addDeleteMode+1}], 'FontSize', settings.fontSize, 'Color', 'white', 'Units', 'normalized', 'Position', [0.01 0.82], 'Background', 'black');
+end
 
 %% if enabled, use correct aspect ratio
 if (settings.axesEqual == true)

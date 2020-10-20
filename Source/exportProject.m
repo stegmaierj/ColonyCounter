@@ -37,6 +37,7 @@ imageSuffix{8} = '_ColonyStats.csv';
 imageSuffix{9} = '_Project.mat';
 
 [folder, file, ext] = fileparts(settings.csvFile);
+folder = strrep(folder, '/item_0003_ExtractLocalExtremaFilter', '');
 file = strrep(file, '_ExtractLocalExtremaFilter_KeyPoints', '');
 resultFolder = [folder filesep file filesep];
 if (~exist(resultFolder, 'dir'))
@@ -49,6 +50,10 @@ for v=1:7
         updateVisualization;
         currentImage = frame2im(getframe(settings.mainFigure));
     else
+        if (~isfield(settings, 'globalStatsPerColony'))
+            disp('Not generating result plots for the colony statistics - run boundary detection first!');
+            continue; 
+        end
         ShowColonyStats();
         fh = figure(2);
         currentImage = frame2im(getframe(fh));
@@ -57,9 +62,14 @@ for v=1:7
     imwrite(currentImage, resultFileName);
 end
 
-resultFileName = [resultFolder file imageSuffix{8}];
-dlmwrite(resultFileName, settings.globalStatsPerColony, ';');
-prepend2file(settings.globalStatsPerColonySpecifiers, resultFileName, 1);
+%% write the colony stats if they were already extracted
+if (isfield(settings, 'globalStatsPerColony'))
+    resultFileName = [resultFolder file imageSuffix{8}];
+    dlmwrite(resultFileName, settings.globalStatsPerColony, ';');
+    prepend2file(settings.globalStatsPerColonySpecifiers, resultFileName, 1);
+else
+    disp('Not generating result plots for the colony statistics - run boundary detection first!');
+end
 
 tempFigure1 = settings.mainFigure;
 tempFigure2 = settings.statsFigure;
@@ -71,5 +81,6 @@ save(resultFileName, '-mat', 'settings');
 
 settings.mainFigure = tempFigure1;
 settings.statsFigure = tempFigure2;
+figure(settings.mainFigure);
 
 disp(['Successfully saved colony statistics to: ' resultFileName]);

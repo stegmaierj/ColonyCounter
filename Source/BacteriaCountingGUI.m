@@ -142,6 +142,7 @@ else
     settings.showInfo = false;
     settings.showBoundary = false;
     settings.showDetections = true;
+    settings.showParameterPanel = true;
 end
 
 %% specify the figure boundaries

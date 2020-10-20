@@ -1,0 +1,1 @@
+You can use this folder, for instance as the output folder.

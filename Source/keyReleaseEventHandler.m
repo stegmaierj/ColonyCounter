@@ -33,9 +33,17 @@ function keyReleaseEventHandler(~,evt)
 
     %% switch between the images of the loaded series
     if (strcmp(evt.Key, 'rightarrow'))
+        if (~isfield(settings, 'rawImage'))
+            return;
+        end
+        
         settings.currentSlice = min(size(settings.rawImage,3), settings.currentSlice+1);
         updateVisualization;
     elseif (strcmp(evt.Key, 'leftarrow'))
+        if (~isfield(settings, 'rawImage'))
+            return;
+        end
+        
         settings.currentSlice = max(1, settings.currentSlice-1);
         updateVisualization;
         %% not implemented yet, maybe use for contrast or scrolling
@@ -111,10 +119,6 @@ function keyReleaseEventHandler(~,evt)
         settings.showDetections = ~settings.showDetections;
         updateVisualization;
         
-    %% select a region of interest and assign the current group to contained detections
-    elseif (strcmp(evt.Character, 's'))
-        
-        
 	%% toggle the color map
     elseif (strcmp(evt.Character, 'c'))
         settings.colormapIndex = mod(settings.colormapIndex+1, 3)+1;
@@ -146,6 +150,11 @@ function keyReleaseEventHandler(~,evt)
     elseif (strcmp(evt.Character, 'h'))    
         showHelp;
         
+    %% show the help dialog
+    elseif (strcmp(evt.Character, 's'))    
+        settings.showParameterPanel = ~settings.showParameterPanel;
+        updateVisualization;
+        
 	%% set group 1 for selection
     elseif (strcmp(evt.Character, '1'))
         settings.viewMode = 1;
@@ -173,6 +182,9 @@ function keyReleaseEventHandler(~,evt)
 %% set group unassigned for selection
     elseif (strcmp(evt.Character, '6'))
         settings.viewMode = 6;
+        updateVisualization;
+    elseif (strcmp(evt.Character, '7'))
+        settings.viewMode = 7;
         updateVisualization;
     end
 end
