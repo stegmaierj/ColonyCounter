@@ -39,7 +39,7 @@ function clickEventHandler(~, ~)
     clickPosition = round([clickPosition(1,1), clickPosition(1,2)]);
     
     %% handle different add/delete/select/deselect scenarios
-    if (settings.addDeleteMode == 0 || strcmp(buttonPressed, 'open'))
+    if (settings.addDeleteMode == 0 || strcmp(buttonPressed, 'open') || min(clickPosition) <= 0)
         return;
     
     %% mode 1 allows to add/delete bacteria

@@ -24,6 +24,11 @@
  %
  %%
  
+if (~ishandle(settings.statsFigure))
+    settings.statsFigure = figure(2);
+    set(settings.statsFigure, 'units','normalized','outerposition',[0 0 1 1]);
+end
+ 
 figure(settings.statsFigure); clf;
 set(gcf, 'color', 'white');
 colordef white; %#ok<COLORDEF>

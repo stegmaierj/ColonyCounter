@@ -55,7 +55,7 @@ for v=1:7
             continue; 
         end
         ShowColonyStats();
-        fh = figure(2);
+        fh = figure(settings.statsFigure);
         currentImage = frame2im(getframe(fh));
     end
     resultFileName = [resultFolder file imageSuffix{v}];
