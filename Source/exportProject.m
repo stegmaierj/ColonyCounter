@@ -62,11 +62,22 @@ for v=1:7
     imwrite(currentImage, resultFileName);
 end
 
+%% identify selected colonies
+activeColonies = ones(length(settings.globalStatsPerColony), 1);
+for i=1:length(settings.colonies)
+   activeColonies(i) = settings.colonies(i).isSelected; 
+end
+activeColonies = activeColonies > 0;
+
 %% write the colony stats if they were already extracted
 if (isfield(settings, 'globalStatsPerColony'))
     resultFileName = [resultFolder file imageSuffix{8}];
-    dlmwrite(resultFileName, settings.globalStatsPerColony, ';');
+    resultFileName2 = [resultFolder file strrep(imageSuffix{8}, '.csv', '_AllColonies.csv')];
+    dlmwrite(resultFileName, settings.globalStatsPerColony(activeColonies, :), ';');
     prepend2file(settings.globalStatsPerColonySpecifiers, resultFileName, 1);
+    
+    dlmwrite(resultFileName2, settings.globalStatsPerColony, ';');
+    prepend2file(settings.globalStatsPerColonySpecifiers, resultFileName2, 1);
 else
     disp('Not generating result plots for the colony statistics - run boundary detection first!');
 end

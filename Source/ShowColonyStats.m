@@ -1,6 +1,6 @@
 %%
  % BacteriaCountingGUI.
- % Copyright (C) 2019 J. Stegmaier
+ % Copyright (C) 2021 A. Bachmann, A. Dupont, J. Stegmaier
  %
  % Licensed under the Apache License, Version 2.0 (the "License");
  % you may not use this file except in compliance with the License.
@@ -36,14 +36,19 @@ subplot(2,3,[1,4]);
 
 %% only compute stats for the active colonies
 activeColonies = ones(length(settings.globalStatsPerColony), 1);
+deselectedBacteriaCount = 0;
 for i=1:length(settings.colonies)
-   activeColonies(i) = settings.colonies(i).isSelected; 
+   activeColonies(i) = settings.colonies(i).isSelected;
+   
+   if (activeColonies(i) == 0)
+       deselectedBacteriaCount = deselectedBacteriaCount + sum(settings.currentDetections(:,settings.groupIdIndex) == i);
+   end   
 end
 activeColonies = activeColonies > 0;
 
 %% histogram of colony size (1, 2-5, 6-10, 11-15 bacteria per colony)
 binValues = zeros(5,1);
-binValues(1) = sum(settings.globalStatsPerColony(activeColonies,2) < 2) + sum(settings.currentDetections(:,settings.groupIdIndex) == 0);
+binValues(1) = sum(settings.globalStatsPerColony(activeColonies,2) < 2) + sum(settings.currentDetections(:,settings.groupIdIndex) == 0) + deselectedBacteriaCount;
 binValues(2) = sum(settings.globalStatsPerColony(activeColonies,2) >= 2 & settings.globalStatsPerColony(activeColonies,2) < 6);
 binValues(3) = sum(settings.globalStatsPerColony(activeColonies,2) >= 6 & settings.globalStatsPerColony(activeColonies,2) < 11);
 binValues(4) = sum(settings.globalStatsPerColony(activeColonies,2) >= 11 & settings.globalStatsPerColony(activeColonies,2) < 16);
