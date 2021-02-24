@@ -11,11 +11,11 @@ The input format are 2D images in the *.tif* format. The GFP channel images are 
 ## GUI Functionality
 This may take a few seconds and after this the results should automatically appear in a newly opened figure in MATLAB, similar to the screenshot below:
 
- ![Overview of the GUI after detection](../Data/Screenshots/GUIOverview.PNG)
+ ![Overview of the GUI after detection](Data/Screenshots/GUIOverview.PNG)
 
 To get an overview of the project, you can use keys 1 - 7 for different visualization modes that superimpose the detections and segmentation on the raw images. The following image shows a few examples of different visualizations:
 
-![Overview of the visualization modes](../Data/Screenshots/VisualizationModes.PNG)
+![Overview of the visualization modes](Data/Screenshots/VisualizationModes.PNG)
 
 On the top-left of the main window the current parameter settings are listed. Use the `P` button to toggle between the different parameter values. The currently selected parameter is highlighted in red. Use the up and down arrow keys to increase and decrease the parameter values, respectively.
 
@@ -27,7 +27,7 @@ The following parameters can be adjusted:
 
 After all parameters have been set properly, the results can be exported using the `E` key. In addition to qualitative result images, different colony-dependent statistics are computed and displayed:
 
-![Overview of the visualization modes](../Data/Screenshots/VisualizationModes.PNG)
+![Overview of the visualization modes](Data/Screenshots/Quantifications.PNG)
 
 An overview of available keyboard commands can be opened using the `H` key and the following keyboard commands are available:
 
