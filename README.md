@@ -1,5 +1,5 @@
 # ColonyCounter
-MATLAB GUI for Semi-Automatic Quantification of Bacteria Colonies
+MATLAB GUI for Semi-Automatic Quantification of Bacteria Colonies in 2D Fluorescence Microscopy Images.
 
 ## Installation
 As a first step download or clone the repository to your machine. ColonyCounter additionally requires XPIWIT used for preprocessing the data, i.e., to detect and segment objects in the 2D images. The latest version of XPIWIT can be obtained from [https://bitbucket.org/jstegmaier/xpiwit/downloads/](https://bitbucket.org/jstegmaier/xpiwit/downloads/). Copy the contents of the `Bin` folder of the binary distribution of XPIWIT to the subfolder `%COLONYCOUNTER%/Source/XPIWIT/{Windows,MacOSX,Ubuntu}`, where `%COLONYCOUNTER%` refers to the main folder you extracted the ColonyCounter repository to. Depending on the used operating system, a different binary version is neccessary and thus the respective subfolder should be created accordingly. Note that all platforms except of Windows are case sensitive, i.e., make sure to use the same capitalization as mentioned above. You can double-check if XPIWIT works properly by double-clicking the `XPIWIT.exe` from the Windows Explorer or by calling `./XPIWIT.sh` in the Terminal of Unix-based systems. Make sure to adjust permissions accordingly, in case you're not allowed to execute this file.
