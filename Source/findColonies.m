@@ -42,8 +42,8 @@ settings.currentDetections(:,settings.groupIdIndex) = clusterIndices;
 %% iterate over the clusters and analyze the boundaries
 groupIndices = unique(settings.currentDetections(:,settings.groupIdIndex));
 settings.colonies = struct();
-settings.globalStatsPerColony = zeros(length(groupIndices)-1, 6);
-settings.globalStatsPerColonySpecifiers = 'ColonyID; NumBacteria; NumBacteriaWithPedestal; FractionOfBacteriaWithPedestal; Density; IsSelected';
+settings.globalStatsPerColony = zeros(length(groupIndices)-1, 7);
+settings.globalStatsPerColonySpecifiers = sprintf('ColonyID; NumBacteria; NumBacteriaWithPedestal; FractionOfBacteriaWithPedestal; Density; IsSelected; #Act. Ped. > %.2f%%', settings.pedestalActiveColonyThreshold*100);
 
 for i = groupIndices'
     if (i == 0)
@@ -126,5 +126,8 @@ for i = groupIndices'
         settings.currentDetections(validIndices, settings.colonyActiveIndex) = false;
     end
     
-    settings.globalStatsPerColony(i, :) = [i, numBacteria, numActive, settings.colonies(i).positivePedestalFraction, settings.colonies(i).density, settings.colonies(i).isSelected];
+    %% identify of the colony is exceeding a fraction of active pedestals
+    settings.colonies(i).pedestalActiveColony = (numActive / numBacteria) >= settings.pedestalActiveColonyThreshold;
+
+    settings.globalStatsPerColony(i, :) = [i, numBacteria, numActive, settings.colonies(i).positivePedestalFraction, settings.colonies(i).density, settings.colonies(i).isSelected, settings.colonies(i).pedestalActiveColony];
 end

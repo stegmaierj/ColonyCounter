@@ -42,6 +42,10 @@ answer = questdlg('Would you like to load an existing project?', 'Load existing 
 if (strcmp(answer, 'Yes'))
     [fileName, pathName] = uigetfile('*.mat', 'Select the project file of a previous labeling session ...');
     load([pathName fileName]);
+
+    if (~isfield(settings, 'pedestalActiveColonyThreshold'))
+        settings.pedestalActiveColonyThreshold = 0.5;
+    end
 else
     %% open the input image
     [fileName, pathName] = uigetfile('*GFP*.tif', 'Select the maximum intensity projection of the GFP channel you want to process ...');
@@ -134,6 +138,7 @@ else
     settings.colormapStrings = {'gray', 'parula', 'jet'};
     settings.dirtyFlag = true;
     settings.pedestalThreshold = 0.29;
+    settings.pedestalActiveColonyThreshold = 0.5;
     settings.boundaryShape = 0.5;
     settings.minPoints = 3;
     settings.epsilon = 21;

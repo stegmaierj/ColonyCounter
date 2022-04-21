@@ -65,7 +65,7 @@ if (settings.maximumProjectionMode == true)
         maxProj1 = imadjust(settings.maxProjectionImage1, [settings.minIntensity, settings.maxIntensity], [], settings.gamma);
         maxProj2 = imadjust(settings.maxProjectionImage2, [settings.minIntensity, settings.maxIntensity], [], settings.gamma);
         imagesc(cat(3, maxProj1, maxProj1, maxProj1 .* (1-maxProj2))); colormap(settings.colormap); hold on;
-    elseif (settings.viewMode == 6 || settings.viewMode == 7)
+    elseif (settings.viewMode == 6 || settings.viewMode == 7 || settings.viewMode == 8)
         maxProj2 = imadjust(settings.maxProjectionImage2, [settings.minIntensity, settings.maxIntensity], [], settings.gamma);
         imagesc(maxProj2); colormap(settings.colormap); hold on;
     end
@@ -74,7 +74,7 @@ if (settings.maximumProjectionMode == true)
     for i=groupIndices'
         
         %% skip plotting the detections if disabled
-        if (settings.showDetections == false || settings.viewMode == 7)
+        if (settings.showDetections == false || settings.viewMode == 8)
             continue;
         end
         
@@ -84,14 +84,14 @@ if (settings.maximumProjectionMode == true)
         %% plot detections of the red channel
         %plot(settings.currentDetections(validIndices,3), settings.currentDetections(validIndices,4), 'or', 'Color', settings.groupColors(i+1, :), 'MarkerSize', settings.markerSize);
         if (i == 0)
-            if (settings.viewMode == 5 || settings.viewMode == 6)
+            if (settings.viewMode == 5 || settings.viewMode == 6 || settings.viewMode == 7)
                 plot(settings.currentDetections(activeDetections,3), settings.currentDetections(activeDetections,4), '.g', 'MarkerSize', settings.markerSize);
                 plot(settings.currentDetections(~activeDetections,3), settings.currentDetections(~activeDetections,4), '.r', 'MarkerSize', settings.markerSize);
             else
                 plot(settings.currentDetections(validIndices,3), settings.currentDetections(validIndices,4), 'xr', 'Color', settings.groupColors(i+1, :), 'MarkerSize', 0.5*settings.markerSize);
             end
         else
-            if (settings.viewMode == 5 || settings.viewMode == 6)
+            if (settings.viewMode == 5 || settings.viewMode == 6 || settings.viewMode == 7)
                 plot(settings.currentDetections(activeDetections,3), settings.currentDetections(activeDetections,4), '.g', 'MarkerSize', settings.markerSize);
                 plot(settings.currentDetections(~activeDetections,3), settings.currentDetections(~activeDetections,4), '.r', 'MarkerSize', settings.markerSize);
             else
@@ -101,9 +101,15 @@ if (settings.maximumProjectionMode == true)
                 text('String', ['C' num2str(i) ' (#B: ' num2str(settings.colonies(i).numDetections) ', A: ' num2str(settings.colonies(i).area) ')'], 'FontSize', settings.fontSize, 'Color', settings.groupColors(i+1, :), 'Units', 'data', 'Position', settings.colonies(i).clusterCenter, 'Background', 'black', 'HorizontalAlignment', 'center');
             end
             
-            if (settings.showBoundary == true && settings.colonies(i).isSelected == true)
+            if (settings.showBoundary == true && settings.colonies(i).isSelected == true && settings.viewMode ~= 7)
                 %plot(settings.currentDetections(settings.colonies(i).boundaryPoints, 3),settings.currentDetections(settings.colonies(i).boundaryPoints, 4),'r', 'Color', settings.groupColors(i+1, :))
-                plot(settings.colonies(i).boundaryPoints(:,1), settings.colonies(i).boundaryPoints(:,2), 'r', 'Color', settings.groupColors(i+1, :), 'LineWidth', 2)
+                plot(settings.colonies(i).boundaryPoints(:,1), settings.colonies(i).boundaryPoints(:,2), 'r', 'Color', settings.groupColors(i+1, :), 'LineWidth', 2);
+            elseif (settings.showBoundary == true && settings.colonies(i).isSelected == true && settings.viewMode == 7)
+                if (settings.colonies(i).pedestalActiveColony)
+                    plot(settings.colonies(i).boundaryPoints(:,1), settings.colonies(i).boundaryPoints(:,2), 'g', 'LineWidth', 2);
+                else
+                    plot(settings.colonies(i).boundaryPoints(:,1), settings.colonies(i).boundaryPoints(:,2), 'r', 'LineWidth', 2);
+                end
             end
         end
     end
@@ -137,9 +143,10 @@ if (settings.showParameterPanel == true)
     text('String', ['MinPoints: ' num2str(settings.minPoints)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 1)+1}, 'Units', 'normalized', 'Position', [0.01 0.94], 'Background', 'black');
     text('String', ['BdryShape: ' num2str(settings.boundaryShape)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 2)+1}, 'Units', 'normalized', 'Position', [0.01 0.90], 'Background', 'black');
     text('String', ['PedestalThreshold: ' num2str(settings.pedestalThreshold)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 3)+1}, 'Units', 'normalized', 'Position', [0.01 0.86], 'Background', 'black');
+    text('String', ['PedestalActCol: ' num2str(settings.pedestalActiveColonyThreshold)], 'FontSize', settings.fontSize, 'Color', textColors{(settings.selectedParameter == 4)+1}, 'Units', 'normalized', 'Position', [0.01 0.82], 'Background', 'black');
 
     addDeleteMode = {'None', 'Bacteria', 'Colonies'};
-    text('String', ['Add/Delete Mode: ' addDeleteMode{settings.addDeleteMode+1}], 'FontSize', settings.fontSize, 'Color', 'white', 'Units', 'normalized', 'Position', [0.01 0.82], 'Background', 'black');
+    text('String', ['Add/Delete Mode: ' addDeleteMode{settings.addDeleteMode+1}], 'FontSize', settings.fontSize, 'Color', 'white', 'Units', 'normalized', 'Position', [0.01 0.78], 'Background', 'black');
 end
 
 %% if enabled, use correct aspect ratio

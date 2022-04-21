@@ -63,6 +63,8 @@ function keyReleaseEventHandler(~,evt)
             settings.boundaryShape = min(1, settings.boundaryShape + 0.1);
         elseif (settings.selectedParameter == 3)
             settings.pedestalThreshold = min(1, settings.pedestalThreshold + 0.01);
+        elseif (settings.selectedParameter == 4)
+            settings.pedestalActiveColonyThreshold = min(1, settings.pedestalActiveColonyThreshold + 0.05);
         end
         findColonies;
         updateVisualization;
@@ -75,11 +77,13 @@ function keyReleaseEventHandler(~,evt)
             settings.boundaryShape = max(0, settings.boundaryShape - 0.1);
         elseif (settings.selectedParameter == 3)
             settings.pedestalThreshold = max(0, settings.pedestalThreshold - 0.01);
+        elseif (settings.selectedParameter == 4)
+            settings.pedestalActiveColonyThreshold = max(0, settings.pedestalActiveColonyThreshold - 0.05);
         end
         findColonies;
-        updateVisualization; 
+        updateVisualization;
 	elseif (strcmp(evt.Key, 'p'))
-        settings.selectedParameter = mod(settings.selectedParameter+1, 4);
+        settings.selectedParameter = mod(settings.selectedParameter+1, 5);
         updateVisualization;
     
     %% toggle add/delete/deselect mode
@@ -185,6 +189,9 @@ function keyReleaseEventHandler(~,evt)
         updateVisualization;
     elseif (strcmp(evt.Character, '7'))
         settings.viewMode = 7;
+        updateVisualization;
+    elseif (strcmp(evt.Character, '8'))
+        settings.viewMode = 8;
         updateVisualization;
     end
 end

@@ -32,9 +32,10 @@ imageSuffix{3} = '_GFP+Segmentation.png';
 imageSuffix{4} = 'Phalloidin+Segmentation.png';
 imageSuffix{5} = '_GFPOverlay+PedestalClassification.png';
 imageSuffix{6} = '_Phalloidin+PedestalClassification.png';
-imageSuffix{7} = '_ColonyStats.png';
-imageSuffix{8} = '_ColonyStats.csv';
-imageSuffix{9} = '_Project.mat';
+imageSuffix{7} = sprintf('_ActPedestalColonies_t=%.2f.png', settings.pedestalActiveColonyThreshold);
+imageSuffix{8} = '_ColonyStats.png';
+imageSuffix{9} = '_ColonyStats.csv';
+imageSuffix{10} = '_Project.mat';
 
 [folder, file, ext] = fileparts(settings.csvFile);
 folder = strrep(folder, '/item_0003_ExtractLocalExtremaFilter', '');
@@ -44,8 +45,8 @@ if (~exist(resultFolder, 'dir'))
     mkdir(resultFolder);
 end
 
-for v=1:7
-    if (v < 7)
+for v=1:8
+    if (v < 8)
         settings.viewMode = v;
         updateVisualization;
         currentImage = frame2im(getframe(settings.mainFigure));
@@ -71,8 +72,8 @@ activeColonies = activeColonies > 0;
 
 %% write the colony stats if they were already extracted
 if (isfield(settings, 'globalStatsPerColony'))
-    resultFileName = [resultFolder file imageSuffix{8}];
-    resultFileName2 = [resultFolder file strrep(imageSuffix{8}, '.csv', '_AllColonies.csv')];
+    resultFileName = [resultFolder file imageSuffix{9}];
+    resultFileName2 = [resultFolder file strrep(imageSuffix{9}, '.csv', '_AllColonies.csv')];
     dlmwrite(resultFileName, settings.globalStatsPerColony(activeColonies, :), ';');
     prepend2file(settings.globalStatsPerColonySpecifiers, resultFileName, 1);
     
@@ -87,7 +88,7 @@ tempFigure2 = settings.statsFigure;
 settings.mainFigure = 0;
 settings.statsFigure = 0;
 
-resultFileName = [resultFolder file imageSuffix{9}];
+resultFileName = [resultFolder file imageSuffix{10}];
 save(resultFileName, '-mat', 'settings');
 
 settings.mainFigure = tempFigure1;

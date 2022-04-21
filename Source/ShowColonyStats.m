@@ -32,7 +32,7 @@ end
 figure(settings.statsFigure); clf;
 set(gcf, 'color', 'white');
 colordef white; %#ok<COLORDEF>
-subplot(2,3,[1,4]);
+subplot(2,3,1);
 
 %% only compute stats for the active colonies
 activeColonies = ones(length(settings.globalStatsPerColony), 1);
@@ -71,6 +71,19 @@ subplot(2,3,3);
 boxplot(settings.globalStatsPerColony(activeColonies,3));
 title(['Number of Bacteria with Pedestals per Colony (\mu = ' num2str(mean(settings.globalStatsPerColony(activeColonies,3))) ' \pm ' num2str(std(settings.globalStatsPerColony(activeColonies,3))) ')'] );
 ylabel('#Bacteria with Pedestals per Colony')
+
+
+subplot(2,3,4);
+pedestalActiveColonies = sum(settings.globalStatsPerColony(activeColonies,7));
+pedestalInactiveColonies = length(activeColonies) - pedestalActiveColonies;
+bar([1,2], [pedestalActiveColonies, pedestalInactiveColonies]);
+
+text(1, pedestalActiveColonies, num2str(pedestalActiveColonies), 'HorizontalAlignment','center', 'VerticalAlignment','bottom');
+text(2, pedestalInactiveColonies, num2str(pedestalInactiveColonies), 'HorizontalAlignment','center', 'VerticalAlignment','bottom');
+
+set(gca, 'XTick', [1,2], 'XTickLabel', {sprintf('Act. Pedestals >=%.2f%%', 100 * settings.pedestalActiveColonyThreshold), sprintf('Act. Pedestals <%.2f%%', 100 * settings.pedestalActiveColonyThreshold)})
+ylabel('Number of Colonies')
+title(sprintf('Number of Colonies with More/Less Than %.2f%% Active Pedestals', 100 * settings.pedestalActiveColonyThreshold));
 
 subplot(2,3,5);
 boxplot(settings.globalStatsPerColony(activeColonies,4));
