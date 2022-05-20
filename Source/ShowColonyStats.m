@@ -74,8 +74,8 @@ ylabel('#Bacteria with Pedestals per Colony')
 
 
 subplot(2,3,4);
-pedestalActiveColonies = sum(settings.globalStatsPerColony(activeColonies,7));
-pedestalInactiveColonies = length(activeColonies) - pedestalActiveColonies;
+pedestalActiveColonies = sum(settings.globalStatsPerColony(activeColonies,7) & settings.globalStatsPerColony(activeColonies,6));
+pedestalInactiveColonies = sum(activeColonies) - pedestalActiveColonies;
 bar([1,2], [pedestalActiveColonies, pedestalInactiveColonies]);
 
 text(1, pedestalActiveColonies, num2str(pedestalActiveColonies), 'HorizontalAlignment','center', 'VerticalAlignment','bottom');
