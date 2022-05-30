@@ -23,6 +23,9 @@ The following parameters can be adjusted:
 - The first two parameters control the behavior of the DBSCAN algorithm that is used to automatically identify clusters in the data that correspond to bacteria colonies. `Epsilon` specifies the radius of the neighborhood used for density calculations. Moreover, `MinPoints` specifies the minimum number of points in the Epsilon-neighborhood required for a point to be considered as a core point. Please refer to the original publication of DBSCAN for more information on the rational of these parameters and the details of the algorithm [3]. The clustering is applied upon pressing the `B` or by adjusting one of the parameters. 
 - The parameter `BdryShape` controls the appearance of the boundaries of the colonies. Values range from 0 for the convex hull to 1 for a compact boundary of the point set. See [https://de.mathworks.com/help/matlab/ref/boundary.html](https://de.mathworks.com/help/matlab/ref/boundary.html) for more details.
 - The parameter `PedestalThreshold` controls the intensity level required by a bacterium to be counted as *active*, i.e., as having formed a pedestal. Active bacteria are highlighted in green and inactive ones in red. The visualization mode `6` is useful for adjusting this pedestal threshold. The smaller the parameter, the more bacteria will be considered active.
+
+- The parameter `PedestalActCol` can be used to specify the minimum percentage of active pedestals within a colony to classify the entire colony as pedestal active. The parameter is varied in 5% steps and the values are scaled in the range 0 - 1, so just multiply them by 100 for the percentage values. If you select the visualization mode `7` you see which of the colonies have a fraction of active pedestals that exceeds the selected threshold. This information is also contained in the exported `csv` files.
+
 - The parameter `Add/Delete Mode` can be separately toggled using the `A` button. This controls how bacteria and colonies can be added and removed. In the default setting `None`, mouse clicks are simply ignored. Setting it to `Bacteria` allows you to add/remove bacteria. Simply left-click at a particular position to add a detection. Upon pressing the right mouse button, the detection closest to the cursor will be removed. Setting this parameter to `Colonies` allows to select/deselect colonies. Similarly, just use the left or right mouse button to select/deselect a colony. Quantifications are only performed on selected colonies, so this feature is useful to deselect colonies at the image borders that are potentially incomplete.
 
 After all parameters have been set properly, the results can be exported using the `E` key. In addition to qualitative result images, different colony-dependent statistics are computed and displayed:
@@ -53,7 +56,7 @@ An overview of available keyboard commands can be opened using the `H` key and t
 * Mouse Wheel: Scroll through slices (only works in slice-mode)
 * CTRL + Mouse Wheel: Zoom in/out in a Google-Maps like behavior
 
-**Hint:** In case key presses show no effect, left click once on the image and try hitting the button again. This only happens if the window looses the focus.
+**Hint:** In case key presses show no effect, left click once on the image and try hitting the button again. This only happens if the window looses the focus. If you are unsure, where the current output directory is located, you can simply type the command `settings.outputFolder` in the command line interface of MATLAB followed by `return`.
 
 ## References
 
