@@ -1,6 +1,6 @@
 --output /Users/jstegmaier/Downloads/Processing/
 --input 0, /Users/jstegmaier/Downloads/20240319_mIC_infection_855_MAX_W0004F0004-1.tif, 2, float
---xml /Users/jstegmaier/Programming/Projects/ColonyCounter/Source/XPIWIT/DetectionPipelineWithSegmentation.xml
+--xml /Users/jstegmaier/Programming/Projects/ColonyCounter/Source/XPIWIT/DetectionPipelineWithSegmentationEPEC2.xml
 --seed 0
 --lockfile off
 --subfolder filterid, filtername
